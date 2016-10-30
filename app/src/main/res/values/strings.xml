@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">LatencyTester</string>
+    <string name="close_application">Close Application</string>
+    <string name="are_you_sure_exit">Are you sure you want to exit?</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Main activity -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Full screen -->
+    <string name="exit_fullscreen">Exit Fullscreen</string>
+    <string name="fullscreen_activity">Fullscreen\nActivity</string>
+
+    <!-- Common Strings -->
+    <string name="yes">Yes</string>
+    <string name="ok">Ok</string>
+    <string name="no">No</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="cancel">Cancel</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="share">Share</string>
+    <string name="register">Register</string>
+    <string name="done">Done</string>
+    <string name="exit">Exit</string>
+
+    <!-- Latency Tester specific -->
+    <string name="test">Test</string>
+    <string name="view_logs">View Logs</string>
+    <string name="security_error">Security Error</string>
+    <string name="network_error">Network Error</string>
+    <string name="network_error_help">It looks like you don\'t have internet access</string>
+    <string name="security_error_help">I\'m lazily handling security exceptions, make sure you have gps enabled</string>
+
+</resources>

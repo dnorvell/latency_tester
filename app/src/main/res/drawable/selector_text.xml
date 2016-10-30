@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- This is an example of a selector for your convenience. By setting a text view to use this drawable, it will
+         change color based on the state list defined below. Change or delete as desired. -->
+
+    <!-- pressed -->
+    <item android:color="@color/CornflowerBlue" android:state_pressed="true" />
+
+    <!-- focused -->
+    <item android:color="@color/CornflowerBlue" android:state_focused="true" />
+
+    <item android:color="@color/DarkTurquoise" android:state_selected="true" />
+
+    <!-- default -->
+    <item android:color="@color/Black" />
+
+</selector>
