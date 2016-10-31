@@ -1,6 +1,7 @@
 package com.kony.latencytester.utils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -13,6 +14,13 @@ import java.io.InputStreamReader;
  * Created by dnorvell on 10/30/16.
  */
 public class Utils {
+
+    public static ProgressDialog sProgressDialog = null;
+    /**
+     * Keep track of the individual context for progress dialogs so we
+     * can make sure the dialog is associated with the proper activity
+     */
+    public static Context sProgressDialogContext;
 
     public static void setOptionsPreference(Context _context, String _key, boolean _value) {
         SharedPreferences prefs = _context.getSharedPreferences(Constants.PREFS_FILE, Context.MODE_PRIVATE);
@@ -78,6 +86,31 @@ public class Utils {
         }
 
         return null;
+    }
+
+    public static ProgressDialog getProgressDialogInstance(Context context) {
+        if (sProgressDialog == null || context != sProgressDialogContext) {
+            sProgressDialogContext = context;
+            return new ProgressDialog(context);
+        } else {
+            return sProgressDialog;
+        }
+    }
+
+    public static void showProgressDialog(Context context, String title, String message, boolean _show) {
+        sProgressDialog = getProgressDialogInstance(context);
+
+        if(_show) {
+            sProgressDialog.setTitle(title);
+            sProgressDialog.setMessage(message);
+            sProgressDialog.show();
+        }
+
+        else {
+            sProgressDialog.dismiss();
+            sProgressDialogContext = null;
+        }
+
     }
 
 }

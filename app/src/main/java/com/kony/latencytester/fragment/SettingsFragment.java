@@ -1,5 +1,9 @@
 package com.kony.latencytester.fragment;
 
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
 import com.kony.latencytester.R;
 
 /**
@@ -14,4 +18,8 @@ public class SettingsFragment extends BaseFragment {
         return R.layout.fragment_settings;
     }
 
+    @Override
+    protected void initUi(View _rootView, Bundle _savedInstanceState) {
+        super.initUi(_rootView, _savedInstanceState);
+    }
 }

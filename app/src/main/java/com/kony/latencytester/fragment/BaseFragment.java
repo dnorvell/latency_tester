@@ -1,19 +1,17 @@
 package com.kony.latencytester.fragment;
 
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kony.latencytester.activity.BaseActivity;
-import com.kony.latencytester.application.LatencytesterApplication;
 import com.kony.latencytester.utils.Constants;
-import com.kony.latencytester.web.WebApi;
 
 import butterknife.ButterKnife;
 

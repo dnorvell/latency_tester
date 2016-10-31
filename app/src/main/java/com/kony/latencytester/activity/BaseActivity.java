@@ -1,20 +1,17 @@
 package com.kony.latencytester.activity;
 
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.StrictMode;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.kony.latencytester.R;
-import com.kony.latencytester.application.LatencytesterApplication;
 import com.kony.latencytester.utils.Constants;
-import com.kony.latencytester.web.WebApi;
 
 import butterknife.ButterKnife;
 
@@ -33,7 +30,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static final String TAG = "BaseActivity";
 
-    public LatencytesterApplication mApplication;
     protected Fragment mCurrentFragment;
     /**
      * A handler that can be used to perform actions on the thread for this activity. To post to the
@@ -42,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * as desired. See {@link #mHandlerThread}. This variable is cleaned up in {@link #onDestroy()}
      */
     protected Handler mHandler;
-    FragmentManager mFragmentManager = getSupportFragmentManager();
+    FragmentManager mFragmentManager = getFragmentManager();
     /**
      * A handler thread that will be spawned and maintained by this class when {@link #getHandler()}
      * is called. When using {@link #runInBackground(Runnable)} or
@@ -64,20 +60,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (Constants.SHOW_LIFE_CYCLE_CHANGES)
             Log.v(getClass().getSimpleName(), "Activity Created");
-
-        // Perform injection so that when this call returns all dependencies will be available for use.
-        mApplication = (LatencytesterApplication) getApplication();
-
-        //TODO Strict mode is useful for seeing where threading might be needed. Remove when ready.
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build();
-        StrictMode.setThreadPolicy(policy);
-
-        //Removes strict mode multiple instances of activity violation.
-        //See: http://stackoverflow.com/questions/21145261/strictmode-activity-instance-count-violation-2-instances-1-expected-on-rotati
-        System.gc();
 
     }
 

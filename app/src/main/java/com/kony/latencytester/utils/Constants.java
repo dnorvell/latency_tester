@@ -4,11 +4,6 @@ package com.kony.latencytester.utils;
 public class Constants {
 
     /**
-     * The amount of time in millis that the splash screen will be displayed to the user.
-     */
-    public static final int SPLASHTIME = 3000;
-
-    /**
      * Logs life cycle events for fragments and activities who extend from BaseFragment/BaseActivity
      * This can be useful for debugging purposes.
      */
@@ -23,6 +18,11 @@ public class Constants {
      * Shared Preferences File.
      */
     public static final String PREFS_FILE = "latency_prefs";
+
+    /**
+     * The name of the log file generated during testing.
+     */
+    public static final String LOG_FILE_NAME = "latency_test.txt";
 
     /**
      * Shared preferences key for whether or not latency service should be running.
