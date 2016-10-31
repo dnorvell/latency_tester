@@ -2,9 +2,12 @@ package com.kony.latencytester.fragment;
 
 import android.accounts.NetworkErrorException;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.widget.TextView;
 
 import com.kony.latencytester.R;
@@ -38,16 +41,17 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LatencyTestManager.addLatencyTestListener(this);
+
+        // Start the background service
+        if (Utils.getOptionsPreference(getActivity(), Constants.RUN_IN_BACKGROUND)) {
+            getActivity().startService(new Intent(getActivity(), LatencyService.class));
+        }
+
     }
 
     @OnClick(R.id.btn_test)
     void onTestClick() {
 
-        if (Utils.getOptionsPreference(getActivity(), Constants.RUN_IN_BACKGROUND)) {
-            getActivity().startService(new Intent(getActivity(), LatencyService.class));
-        }
-
-        else {
             try {
                 Utils.showProgressDialog(getActivity(),
                         getString(R.string.please_wait),
@@ -80,7 +84,6 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
                             }
                         });
             }
-        }
     }
 
     @OnClick(R.id.btn_view_logs)
@@ -107,6 +110,13 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
 
     @Override
     public void onLatencyTestComplete(LatencyRecord _latencyRecord) {
+
+        if (shouldShowSnackbar()) {
+            if (getView() != null) {
+                Snackbar.make(getView(), "Results updated", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+
         mTvTestResults.setText(_latencyRecord.toString());
 
         LogFile.appendLog(_latencyRecord.toString());
@@ -115,6 +125,12 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
                 getString(R.string.please_wait),
                 getString(R.string.obtaining_results),
                 false);
+
+    }
+
+    private boolean shouldShowSnackbar() {
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.PREFS_FILE, Context.MODE_PRIVATE);
+        return prefs.getBoolean(Constants.SHOW_SNACKBAR, true);
     }
 
     @Override

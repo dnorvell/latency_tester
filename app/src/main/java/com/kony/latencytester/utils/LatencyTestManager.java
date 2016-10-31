@@ -141,7 +141,7 @@ public class LatencyTestManager {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact = response.body();
-                Log.v(TAG, contact.toString());
+//                Log.v(TAG, contact.toString());
 
                 mRecord.onlineGetContact = calculateWebcallTimeInMS(response);
                 fullOfflineSync();
@@ -161,7 +161,7 @@ public class LatencyTestManager {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact = response.body();
-                Log.v(TAG, contact.toString());
+//                Log.v(TAG, contact.toString());
 
                 mRecord.fullOfflineSync = calculateWebcallTimeInMS(response);
                 partialOfflineSync();
@@ -181,7 +181,7 @@ public class LatencyTestManager {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact = response.body();
-                Log.v(TAG, contact.toString());
+//                Log.v(TAG, contact.toString());
 
                 mRecord.partialOfflineSync = calculateWebcallTimeInMS(response);
                 syncUpload();

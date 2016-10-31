@@ -29,4 +29,19 @@ public class Constants {
      */
     public static final String RUN_IN_BACKGROUND = "run_in_background";
 
+    /**
+     * Shared preferences key for whether or not latency service should show a toast when it executes.
+     */
+    public static final String SHOW_SNACKBAR = "show_toast";
+
+    /**
+     * Shared preferences key how often the background service should execute.
+     */
+    public static final String BACKGROUND_INTERVAL = "background_interval";
+
+    /**
+     * Shared preferences key for how long the client should wait before the api times out.
+     */
+    public static final String API_TIMEOUT = "api_timeout";
+
 }
