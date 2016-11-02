@@ -49,6 +49,7 @@
     <string name="run_in_background">Auto Background Testing</string>
     <string name="show_snack">Show snackbar when results are updated</string>
     <string name="test_every">Test every</string>
+    <string name="ping_host">Ping Host</string>
     <string name="minutes">minutes</string>
     <string name="api_timeout">API Timeout limit (seconds)</string>
     <string name="view_logs">View Logs</string>

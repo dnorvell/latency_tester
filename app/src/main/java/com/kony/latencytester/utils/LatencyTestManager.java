@@ -2,6 +2,7 @@ package com.kony.latencytester.utils;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
@@ -65,33 +66,39 @@ public class LatencyTestManager {
         }
 
         // Determine our general latency via ping command
-        //TODO error from emulator?
-//        String pingLatency = Utils.ping("8.8.8.8");
-
-        final String pingLatency = "107";
+        SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_FILE, Context.MODE_PRIVATE);
+        String pingOutput = Utils.ping(prefs.getString(Constants.PING_HOST, "8.8.8.8"));
+        String pingLatency;
+        try {
+            if(pingOutput != null) {
+                pingLatency = pingOutput.split("\n")[1].split("=")[3];
+            }
+            else {
+                pingLatency = "error retrieving ping";
+            }
+        }
+        catch (Exception e) {
+            pingLatency = "error retrieving ping";
+        }
 
         // Get our current location
         LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
-//        SingleShotLocationProvider.requestSingleUpdate(locationManager, new SingleShotLocationProvider.LocationCallback() {
-//            @Override
-//            public void onNewLocationAvailable(Location location) {
-                // Now that we have our location, lets start our test
-//                beginLatencyChecks(location, networkType, pingLatency);
-//            }
-//        });
+        final String ping = pingLatency;
+        SingleShotLocationProvider.requestSingleUpdate(locationManager, new SingleShotLocationProvider.LocationCallback() {
 
-        // TODO remove mock location
-        Location location = new Location(""); //provider name is unnecessary
-        location.setLatitude(1.0);
-        location.setLongitude(-1.0);
-        beginLatencyChecks(location, networkType, pingLatency);
+            @Override
+            public void onNewLocationAvailable(Location location) {
+                // Now that we have our location, lets start our test
+                beginLatencyChecks(location, networkType, ping);
+            }
+        });
 
     }
 
     public void beginLatencyChecks(Location _location, String _networkType, String _pingLatency) {
         //Create the record object. The start time is set when it is instantiated.
-        mRecord = new LatencyRecord(_location, _networkType, Integer.valueOf(_pingLatency));
+        mRecord = new LatencyRecord(_location, _networkType, _pingLatency);
         simpleApiCheck();
     }
 

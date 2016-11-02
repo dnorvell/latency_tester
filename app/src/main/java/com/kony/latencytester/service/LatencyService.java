@@ -60,6 +60,7 @@ public class LatencyService extends BaseService implements LatencyTestManager.La
             @Override
             public void run() {
                 try {
+                    Log.v(TAG, String.valueOf(Thread.currentThread().getId()));
                     LatencyTestManager.getInstance(LatencyService.this).start();
                 }
                 catch (NetworkErrorException e) {

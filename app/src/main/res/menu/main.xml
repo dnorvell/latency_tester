@@ -9,4 +9,9 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_view_log"
+        android:title="@string/view_logs"
+        app:showAsAction="never" />
+
 </menu>

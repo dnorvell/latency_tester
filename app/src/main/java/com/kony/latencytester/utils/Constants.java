@@ -44,4 +44,9 @@ public class Constants {
      */
     public static final String API_TIMEOUT = "api_timeout";
 
+    /**
+     * Shared preferences key for which host the client should ping.
+     */
+    public static final String PING_HOST = "ping_host";
+
 }

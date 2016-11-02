@@ -34,6 +34,9 @@ public class SettingsFragment extends BaseFragment {
     @Bind(R.id.et_api_timout)
     EditText mEtApiTimeout;
 
+    @Bind(R.id.et_ping_host)
+    EditText mEtPingHost;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_settings;
@@ -51,6 +54,7 @@ public class SettingsFragment extends BaseFragment {
         mSwShowSnack.setChecked(prefs.getBoolean(Constants.SHOW_SNACKBAR, true));
         mEtBackgroundInterval.setText(String.valueOf(prefs.getInt(Constants.BACKGROUND_INTERVAL, 30)));
         mEtApiTimeout.setText(String.valueOf(prefs.getInt(Constants.API_TIMEOUT, 300)));
+        mEtPingHost.setText(prefs.getString(Constants.PING_HOST, "8.8.8.8"));
     }
 
     @OnClick(R.id.btn_save)
@@ -73,6 +77,7 @@ public class SettingsFragment extends BaseFragment {
         editor.putBoolean(Constants.SHOW_SNACKBAR, mSwShowSnack.isChecked());
         editor.putInt(Constants.BACKGROUND_INTERVAL, Integer.valueOf(mEtBackgroundInterval.getText().toString()));
         editor.putInt(Constants.API_TIMEOUT, Integer.valueOf(mEtApiTimeout.getText().toString()));
+        editor.putString(Constants.PING_HOST, mEtPingHost.getText().toString());
         editor.apply();
 
         getActivity().finish();

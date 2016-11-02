@@ -16,7 +16,7 @@ public class LatencyRecord {
     public String networkType;
     public double latitude;
     public double longitude;
-    public int pingLatency;
+    public String pingLatency;
     public String simpleApiLatency;
     public String customLogicApi;
     public String onlineGetContact;
@@ -24,7 +24,7 @@ public class LatencyRecord {
     public String partialOfflineSync;
     public String syncUpload;
 
-    public LatencyRecord(Location _location, String _networkType, int _pingLatency) {
+    public LatencyRecord(Location _location, String _networkType, String _pingLatency) {
         startTime = new Date().getTime();
         networkType = _networkType;
         pingLatency = _pingLatency;

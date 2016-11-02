@@ -8,10 +8,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.kony.latencytester.R;
 import com.kony.latencytester.activity.LogActivity;
+import com.kony.latencytester.activity.SettingsActivity;
 import com.kony.latencytester.entities.LatencyRecord;
 import com.kony.latencytester.service.LatencyService;
 import com.kony.latencytester.utils.Constants;
@@ -41,6 +46,7 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LatencyTestManager.addLatencyTestListener(this);
+        setHasOptionsMenu(true);
 
         // Start the background service
         if (Utils.getOptionsPreference(getActivity(), Constants.RUN_IN_BACKGROUND)) {
@@ -86,9 +92,31 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
             }
     }
 
-    @OnClick(R.id.btn_view_logs)
-    void onViewLogsClick() {
-        startActivityForResult(new Intent(getActivity(), LogActivity.class), LOG);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+
+            case R.id.action_view_log:
+                startActivityForResult(new Intent(getActivity(), LogActivity.class), LOG);
+                return true;
+
+        }
+
+        return true;
     }
 
     @Override
@@ -116,7 +144,7 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
                 Snackbar.make(getView(), "Results updated", Snackbar.LENGTH_SHORT).show();
             }
         }
-
+        Log.v(TAG, String.valueOf(Thread.currentThread().getId()));
         mTvTestResults.setText(_latencyRecord.toString());
 
         LogFile.appendLog(_latencyRecord.toString());
