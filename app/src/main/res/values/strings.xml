@@ -56,6 +56,7 @@
     <string name="background_service_running">Background service is running</string>
     <string name="stop_service">Stop service</string>
     <string name="api_timeout">API Timeout limit (seconds)</string>
+    <string name="latest_result">Latest Result</string>
     <string name="view_logs">View Logs</string>
     <string name="no_log">No log file found.</string>
     <string name="permission_required">The app requires all of the requested permissions to function properly. You may as well leave and go enable them.</string>

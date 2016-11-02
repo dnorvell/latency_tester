@@ -39,6 +39,65 @@ public class LatencyRecord {
         return sdf.format(date);
     }
 
+    /**
+     * A bunch of stupid methods to append ms to the end if applicable, otherwise just return the
+     * String which was probably an exception the latency tester threw so it cant be parsed.
+     */
+
+    public String getSimpleApiLatency() {
+        try {
+            return Integer.valueOf(simpleApiLatency) + " ms";
+        }
+        catch (NumberFormatException e) {
+            return simpleApiLatency;
+        }
+    }
+
+    public String getCustomLogicApi() {
+        try {
+            return Integer.valueOf(customLogicApi) + " ms";
+        }
+        catch (NumberFormatException e) {
+            return customLogicApi;
+        }
+    }
+
+    public String getOnlineGetContact() {
+        try {
+            return Integer.valueOf(onlineGetContact) + " ms";
+        }
+        catch (NumberFormatException e) {
+            return onlineGetContact;
+        }
+    }
+
+    public String getFullOfflineSync() {
+        try {
+            return Integer.valueOf(fullOfflineSync) + " ms";
+        }
+        catch (NumberFormatException e) {
+            return fullOfflineSync;
+        }
+    }
+
+    public String getPartialOfflineSync() {
+        try {
+            return Integer.valueOf(partialOfflineSync) + " ms";
+        }
+        catch (NumberFormatException e) {
+            return partialOfflineSync;
+        }
+    }
+
+    public String getSyncUpload() {
+        try {
+            return Integer.valueOf(syncUpload) + " ms";
+        }
+        catch (NumberFormatException e) {
+            return syncUpload;
+        }
+    }
+
     @Override
     public String toString() {
         return
@@ -48,12 +107,20 @@ public class LatencyRecord {
                 "Latitude: " + latitude + "\n" +
                 "Longitude: " + longitude + "\n" +
                 "Ping Latency: " + pingLatency + "\n" +
-                "Simple API: " + simpleApiLatency + "\n" +
-                "Custom Logic API: " + customLogicApi + "\n" +
-                "Online Get Contact: " + onlineGetContact + "\n" +
-                "Full Offline Sync Download: " + fullOfflineSync + "\n" +
-                "Partial Offline Sync Download: " + partialOfflineSync + "\n" +
-                "Sync Upload: " + syncUpload + "\n" +
+                "Simple API: " + getSimpleApiLatency() + "\n" +
+                "Custom Logic API: " + getCustomLogicApi() + "\n" +
+                "Online Get Contact: " + getOnlineGetContact() + "\n" +
+                "Full Offline Sync Download: " + getFullOfflineSync() + "\n" +
+                "Partial Offline Sync Download: " + getPartialOfflineSync() + "\n" +
+                "Sync Upload: " + getSyncUpload() + "\n" +
                 "\n";
     }
+
+    public String toCsvLine() {
+        return getTimestamp(startTime) + "," + getTimestamp(endTime) + "," + networkType + "," +
+            latitude + "," + longitude + "," + pingLatency + "," + getSimpleApiLatency() + "," +
+            getCustomLogicApi() + "," + getOnlineGetContact() + "," + getFullOfflineSync() + "," +
+            getPartialOfflineSync() + "," + getSyncUpload() + "\n";
+     }
+
 }

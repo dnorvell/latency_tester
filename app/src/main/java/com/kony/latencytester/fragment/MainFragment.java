@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kony.latencytester.R;
@@ -47,6 +49,9 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
 
     @Bind(R.id.tv_test_results)
     TextView mTvTestResults;
+
+    @Bind(R.id.ll_result_card)
+    LinearLayout mLlResultCard;
 
     @Override
     protected int getLayoutId() {
@@ -140,6 +145,7 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
                     case Activity.RESULT_OK:
                         // Log was cleared so lets clear the text
                         mTvTestResults.setText("");
+                        mLlResultCard.setVisibility(View.GONE);
                         break;
                     case Activity.RESULT_CANCELED:
                         // Do nothing
@@ -159,12 +165,14 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
 
         Log.v(TAG, String.valueOf(Thread.currentThread().getId()));
 
+        mLlResultCard.setVisibility(View.VISIBLE);
         mTvTestResults.setText(_latencyRecord.toString());
 
         // If the background service is running, it will also be listening and take care of the logging
         // so dont bother.
         if (!LatencyService.isRunning()) {
-            LogFile.appendLog(_latencyRecord.toString());
+//            LogFile.appendLog(_latencyRecord.toString());
+            LogFile.appendLog(_latencyRecord.toCsvLine());
         }
 
         Utils.showProgressDialog(getActivity(),

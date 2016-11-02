@@ -88,7 +88,8 @@ public class LatencyService extends BaseService implements LatencyTestManager.La
 
     @Override
     public void onLatencyTestComplete(LatencyRecord _latencyRecord) {
-        LogFile.appendLog(_latencyRecord.toString());
+//        LogFile.appendLog(_latencyRecord.toString());
+        LogFile.appendLog(_latencyRecord.toCsvLine());
     }
 
     private int getScheduleInterval() {

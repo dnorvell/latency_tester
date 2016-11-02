@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.util.Log;
 
 import com.kony.latencytester.entities.Contact;
@@ -84,15 +85,25 @@ public class LatencyTestManager {
         // Get our current location
         LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
-        final String ping = pingLatency;
-        SingleShotLocationProvider.requestSingleUpdate(locationManager, new SingleShotLocationProvider.LocationCallback() {
+        if(!Build.FINGERPRINT.contains("generic")) { // Common way of determine hardware device vs emulator
+            final String ping = pingLatency;
+            SingleShotLocationProvider.requestSingleUpdate(locationManager, new SingleShotLocationProvider.LocationCallback() {
 
-            @Override
-            public void onNewLocationAvailable(Location location) {
-                // Now that we have our location, lets start our test
-                beginLatencyChecks(location, networkType, ping);
-            }
-        });
+                @Override
+                public void onNewLocationAvailable(Location location) {
+                    // Now that we have our location, lets start our test
+                    beginLatencyChecks(location, networkType, ping);
+                }
+            });
+        }
+
+        // We are likely running in an emulator so spoof gps stuff
+        else {
+            Location location = new Location(""); // Provider is not necessary
+            location.setLatitude(1.0);
+            location.setLongitude(-1.0);
+            beginLatencyChecks(location, networkType, pingLatency);
+        }
 
     }
 

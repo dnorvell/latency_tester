@@ -22,7 +22,7 @@ public class Constants {
     /**
      * The name of the log file generated during testing.
      */
-    public static final String LOG_FILE_NAME = "latency_test.txt";
+    public static final String LOG_FILE_NAME = "latency_test.csv";
 
     /**
      * Shared preferences key for whether or not latency service should be running.

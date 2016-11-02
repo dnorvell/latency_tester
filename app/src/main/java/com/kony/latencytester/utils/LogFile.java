@@ -17,6 +17,11 @@ public class LogFile {
 
     public static String TAG = "LogFile";
 
+    //CSV file header
+    private static final String FILE_HEADER = "Start Time,End Time,Network Type,Latitude," +
+            "Longitude,Ping Latency,Simple API, Custom Logic API,Online Get Contact," +
+            "Full Offline Sync Download,Partial Offline Sync Download,Sync Upload";
+
     public static void appendLog(String text)
     {
         File logFile = new File(getPath());
@@ -25,6 +30,18 @@ public class LogFile {
             try
             {
                 logFile.createNewFile();
+                try
+                {
+                    // Go ahead and write the csv headers
+                    BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+                    buf.append(FILE_HEADER);
+                    buf.newLine();
+                    buf.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
             catch (IOException e)
             {
@@ -36,13 +53,20 @@ public class LogFile {
             //BufferedWriter for performance, true to set append to file flag
             BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
             buf.append(text);
-            buf.newLine();
             buf.close();
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    public static String [] CSV_HEADERS = {
+
+    };
+
+    public static void writeCsvHeaders(String [] _headers) {
+
     }
 
     public static String readLog() {
