@@ -12,6 +12,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="user_error">User error</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -28,6 +29,7 @@
     <!-- Common Strings -->
     <string name="yes">Yes</string>
     <string name="ok">Ok</string>
+    <string name="ill_leave">I\'ll leave now</string>
     <string name="no">No</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
@@ -43,7 +45,7 @@
     <string name="exit">Exit</string>
 
     <!-- Latency Tester specific -->
-    <string name="test">Test</string>
+    <string name="manual_test">Manual Test</string>
     <string name="please_wait">Please wait</string>
     <string name="obtaining_results">Obtaining results&#8230;</string>
     <string name="run_in_background">Auto Background Testing</string>
@@ -51,9 +53,12 @@
     <string name="test_every">Test every</string>
     <string name="ping_host">Ping Host</string>
     <string name="minutes">minutes</string>
+    <string name="background_service_running">Background service is running</string>
+    <string name="stop_service">Stop service</string>
     <string name="api_timeout">API Timeout limit (seconds)</string>
     <string name="view_logs">View Logs</string>
     <string name="no_log">No log file found.</string>
+    <string name="permission_required">The app requires all of the requested permissions to function properly. You may as well leave and go enable them.</string>
     <string name="settings">Settings</string>
     <string name="log_viewer">Log Viewer</string>
     <string name="delete_check">Are you sure you want to delete the log file?</string>

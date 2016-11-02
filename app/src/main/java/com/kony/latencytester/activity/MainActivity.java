@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.kony.latencytester.R;
 import com.kony.latencytester.fragment.MainFragment;
 import com.kony.latencytester.fragment.NavOneFragment;
+import com.kony.latencytester.service.LatencyService;
 import com.kony.latencytester.utils.Utils;
 
 import butterknife.Bind;
@@ -106,6 +107,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String action = intent.getAction();
+        if (action == null) {
+            return;
+        }
+        switch (action) {
+            case LatencyService.CLOSE_ACTION:
+                stopService(new Intent(this, LatencyService.class));
+                break;
+        }
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

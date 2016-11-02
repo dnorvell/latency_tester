@@ -12,8 +12,8 @@
     tools:showIn="@layout/app_bar_main">
 
     <Button
-        android:id="@+id/btn_test"
-        android:text="@string/test"
+        android:id="@+id/btn_manual_test"
+        android:text="@string/manual_test"
         android:layout_alignParentTop="true"
         style="@style/Base.Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
@@ -25,21 +25,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:text="Time until next test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<TextView-->
+            <!--android:text="Time until next test"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/circular_progress_bar"
-            android:background="@drawable/circle_shape"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:max="100"
-            android:progress="65" />
+        <!--<ProgressBar-->
+            <!--android:id="@+id/progressBar"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:indeterminate="false"-->
+            <!--android:progressDrawable="@drawable/circular_progress_bar"-->
+            <!--android:background="@drawable/circle_shape"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:max="100"-->
+            <!--android:progress="65" />-->
 
         <TextView
             android:id="@+id/tv_test_results"

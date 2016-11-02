@@ -6,7 +6,7 @@ import android.content.Context;
 /**
  * Application class for the app.
  */
-public class LatencytesterApplication extends Application {
+public class LatencyTesterApplication extends Application {
 
     private static Context sContext;
 

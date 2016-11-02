@@ -2,9 +2,12 @@ package com.kony.latencytester.fragment;
 
 
 import android.app.DialogFragment;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -142,6 +145,28 @@ public abstract class BaseFragment extends DialogFragment {
      */
     protected void runInBackgroundDelayed(Runnable _runnable, long _delayMillis) {
         getHandler().postDelayed(_runnable, _delayMillis);
+    }
+
+    protected boolean checkAndRequestPermissionIfNeeded(String _permission, int _permissionCode) {
+        if (checkPermission(_permission)) {
+            return true;
+        } else {
+            requestPermission(new String[]{_permission}, _permissionCode);
+            return false;
+        }
+    }
+
+    protected boolean checkPermission(String _permission) {
+        return ContextCompat.checkSelfPermission(getActivity(), _permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    protected void requestPermission(String[] _permissions, int _permissionCode) {
+        FragmentCompat.requestPermissions(this, _permissions, _permissionCode);
+    }
+
+    protected boolean permissionGranted(int[] grantResults) {
+        // If request is cancelled, the result arrays are empty.
+        return grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
