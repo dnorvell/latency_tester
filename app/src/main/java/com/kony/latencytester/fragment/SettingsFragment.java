@@ -31,8 +31,11 @@ public class SettingsFragment extends BaseFragment {
     @Bind(R.id.et_background_interval)
     EditText mEtBackgroundInterval;
 
-//    @Bind(R.id.et_api_timout)
-//    EditText mEtApiTimeout;
+    @Bind(R.id.et_api_timout)
+    EditText mEtApiTimeout;
+
+    @Bind(R.id.sw_enable_timeout)
+    Switch mSwEnableTimeout;
 
     @Bind(R.id.et_ping_host)
     EditText mEtPingHost;
@@ -53,7 +56,8 @@ public class SettingsFragment extends BaseFragment {
         mSwRunBackground.setChecked(prefs.getBoolean(Constants.RUN_IN_BACKGROUND, true));
         mSwShowSnack.setChecked(prefs.getBoolean(Constants.SHOW_SNACKBAR, true));
         mEtBackgroundInterval.setText(String.valueOf(prefs.getInt(Constants.BACKGROUND_INTERVAL, 30)));
-//        mEtApiTimeout.setText(String.valueOf(prefs.getInt(Constants.API_TIMEOUT, 300)));
+        mEtApiTimeout.setText(String.valueOf(prefs.getInt(Constants.API_TIMEOUT, 300)));
+        mSwEnableTimeout.setChecked(prefs.getBoolean(Constants.ENABLE_TIMEOUT, false));
         mEtPingHost.setText(prefs.getString(Constants.PING_HOST, "8.8.8.8"));
     }
 
@@ -76,7 +80,8 @@ public class SettingsFragment extends BaseFragment {
         editor.putBoolean(Constants.RUN_IN_BACKGROUND, mSwRunBackground.isChecked());
         editor.putBoolean(Constants.SHOW_SNACKBAR, mSwShowSnack.isChecked());
         editor.putInt(Constants.BACKGROUND_INTERVAL, Integer.valueOf(mEtBackgroundInterval.getText().toString()));
-//        editor.putInt(Constants.API_TIMEOUT, Integer.valueOf(mEtApiTimeout.getText().toString()));
+        editor.putInt(Constants.API_TIMEOUT, Integer.valueOf(mEtApiTimeout.getText().toString()));
+        editor.putBoolean(Constants.ENABLE_TIMEOUT, mSwEnableTimeout.isChecked());
         editor.putString(Constants.PING_HOST, mEtPingHost.getText().toString());
         editor.apply();
 

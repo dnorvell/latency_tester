@@ -5,6 +5,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.HandlerThread;
+import android.os.Looper;
 
 public class SingleShotLocationProvider {
 
@@ -25,13 +27,19 @@ public class SingleShotLocationProvider {
                     _locationCallback.onNewLocationAvailable(location);
                 }
                 @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {}
-                @Override
-                public void onProviderEnabled(String provider) {}
-                @Override
-                public void onProviderDisabled(String provider) {}
+                public void onStatusChanged(String provider, int status, Bundle extras) {
 
-            }, null);
+                }
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+
+            }, Looper.getMainLooper());
         }
 
         else {
@@ -53,7 +61,7 @@ public class SingleShotLocationProvider {
                     @Override
                     public void onProviderDisabled(String provider) {}
 
-                }, null);
+                }, Looper.getMainLooper());
             }
         }
 

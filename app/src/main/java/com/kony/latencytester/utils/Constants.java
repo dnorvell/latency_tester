@@ -40,6 +40,11 @@ public class Constants {
     public static final String BACKGROUND_INTERVAL = "background_interval";
 
     /**
+     * Name up the file that will be uploaded during the sync upload call
+     */
+    public static final String ENABLE_TIMEOUT = "enable_timeout";
+
+    /**
      * Shared preferences key for how long the client should wait before the api times out.
      */
     public static final String API_TIMEOUT = "api_timeout";
@@ -48,5 +53,10 @@ public class Constants {
      * Shared preferences key for which host the client should ping.
      */
     public static final String PING_HOST = "ping_host";
+
+    /**
+     * Name up the file that will be uploaded during the sync upload call
+     */
+    public static final String SYNC_FILE_NAME = "syncUpload.txt";
 
 }

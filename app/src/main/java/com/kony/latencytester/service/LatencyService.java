@@ -118,7 +118,7 @@ public class LatencyService extends BaseService implements LatencyTestManager.La
                         .setAction(CLOSE_ACTION),
                 0);
         mNotificationBuilder
-                .setSmallIcon(android.R.drawable.ic_menu_upload)
+                .setSmallIcon(R.drawable.ic_speedometer)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setWhen(System.currentTimeMillis())

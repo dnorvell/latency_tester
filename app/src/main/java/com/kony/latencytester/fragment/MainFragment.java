@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +38,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
-public class MainFragment extends BaseFragment implements LatencyTestManager.LatencyTestListener {
+public class MainFragment extends BaseFragment implements LatencyTestManager.LatencyTestListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = "MainFragment";
 
@@ -53,6 +55,9 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
     @Bind(R.id.ll_result_card)
     LinearLayout mLlResultCard;
 
+//    @Bind(R.id.swipe_refresh)
+//    SwipeRefreshLayout mSwipeRefresh;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main;
@@ -62,6 +67,7 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LatencyTestManager.addLatencyTestListener(this);
+
         setHasOptionsMenu(true);
 
         checkPermissions();
@@ -73,40 +79,67 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
 
     }
 
+    @Override
+    protected void initUi(View _rootView, Bundle _savedInstanceState) {
+        super.initUi(_rootView, _savedInstanceState);
+//        mSwipeRefresh.setOnRefreshListener(this);
+//        mSwipeRefresh.setColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
+//                getResources().getColor(android.R.color.holo_green_light),
+//                getResources().getColor(android.R.color.holo_orange_light),
+//                getResources().getColor(android.R.color.holo_red_light));
+    }
+
+    @Override
+    public void onRefresh() {
+//        startTest();
+    }
+
     @OnClick(R.id.btn_manual_test)
     void onManualTestClick() {
-            try {
-                Utils.showProgressDialog(getActivity(),
-                        getString(R.string.please_wait),
-                        getString(R.string.obtaining_results),
-                        true);
+        startTest();
+    }
 
-                LatencyTestManager.getInstance(getActivity()).start();
-            }
-            catch (NetworkErrorException e) {
-                Utils.showDialog(getActivity(),
-                        getString(R.string.network_error),
-                        getString(R.string.network_error_help) + e.getLocalizedMessage(),
-                        getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-            }
-            catch (SecurityException e) {
-                Utils.showDialog(getActivity(),
-                        getString(R.string.security_error),
-                        getString(R.string.security_error_help) + e.getLocalizedMessage(),
-                        getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-            }
+    private void startTest() {
+        try {
+            Utils.showProgressDialog(getActivity(),
+                    getString(R.string.please_wait),
+                    getString(R.string.obtaining_results),
+                    true);
+
+            LatencyTestManager.getInstance(getActivity()).start();
+        }
+        catch (NetworkErrorException e) {
+            networkErrorDialog(e);
+        }
+        catch (SecurityException e) {
+            securityErrorDialog(e);
+        }
+    }
+
+    private void networkErrorDialog(NetworkErrorException e) {
+        Utils.showDialog(getActivity(),
+                getString(R.string.network_error),
+                getString(R.string.network_error_help) + e.getLocalizedMessage(),
+                getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+    private void securityErrorDialog(SecurityException e) {
+        Utils.showDialog(getActivity(),
+                getString(R.string.security_error),
+                getString(R.string.security_error_help) + e.getLocalizedMessage(),
+                getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
     }
 
     @Override
@@ -165,6 +198,7 @@ public class MainFragment extends BaseFragment implements LatencyTestManager.Lat
 
         Log.v(TAG, String.valueOf(Thread.currentThread().getId()));
 
+//        mSwipeRefresh.setRefreshing(false);
         mLlResultCard.setVisibility(View.VISIBLE);
         mTvTestResults.setText(_latencyRecord.toString());
 

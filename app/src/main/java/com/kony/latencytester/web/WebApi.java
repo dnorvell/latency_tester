@@ -4,14 +4,20 @@ package com.kony.latencytester.web;
 import com.kony.latencytester.entities.Contact;
 import com.kony.latencytester.entities.CustomLogicApiResponse;
 import com.kony.latencytester.entities.SimpleResponse;
+import com.kony.latencytester.entities.SyncUploadResponse;
 import com.kony.latencytester.entities.UpdateContactPayload;
 import com.kony.latencytester.entities.UpdateResponse;
 
+import java.io.File;
+
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 
 
 public interface WebApi {
@@ -34,7 +40,8 @@ public interface WebApi {
     @GET("data/v1/Customers/objects/user?%24top=100")
     Call<Contact> partialOfflineSync();
 
-//    Sync Upload
-//    curl -X PUT -d @"syncUpload.txt" https://apps.konycloud.com/services/data/v1/Customers/objects/user
+    @Multipart
+    @PUT("data/v1/Customers/objects/user")
+    Call<SyncUploadResponse> syncUpload(@Part("file") RequestBody _file);
 
 }

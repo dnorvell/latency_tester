@@ -6,18 +6,26 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import com.kony.latencytester.entities.Contact;
 import com.kony.latencytester.entities.CustomLogicApiResponse;
 import com.kony.latencytester.entities.LatencyRecord;
 import com.kony.latencytester.entities.SimpleResponse;
+import com.kony.latencytester.entities.SyncUploadResponse;
 import com.kony.latencytester.web.WebApiManager;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,7 +122,7 @@ public class LatencyTestManager {
     }
 
     private void simpleApiCheck() {
-        WebApiManager.getInstance().getSimpleApi().enqueue(new Callback<SimpleResponse>() {
+        WebApiManager.getInstance(mContext).getSimpleApi().enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 SimpleResponse simpleResponse = response.body();
@@ -134,7 +142,7 @@ public class LatencyTestManager {
     }
 
     private void customLogicApiCheck() {
-        WebApiManager.getInstance().postCustomLogicApi().enqueue(new Callback<CustomLogicApiResponse>() {
+        WebApiManager.getInstance(mContext).postCustomLogicApi().enqueue(new Callback<CustomLogicApiResponse>() {
             @Override
             public void onResponse(Call<CustomLogicApiResponse> call, Response<CustomLogicApiResponse> response) {
                 CustomLogicApiResponse customLogicApiResponse = response.body();
@@ -155,7 +163,7 @@ public class LatencyTestManager {
     }
 
     private void getContact() {
-        WebApiManager.getInstance().getContact().enqueue(new Callback<Contact>() {
+        WebApiManager.getInstance(mContext).getContact().enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact = response.body();
@@ -175,7 +183,7 @@ public class LatencyTestManager {
     }
 
     private void fullOfflineSync() {
-        WebApiManager.getInstance().fullOfflineSync().enqueue(new Callback<Contact>() {
+        WebApiManager.getInstance(mContext).fullOfflineSync().enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact = response.body();
@@ -195,7 +203,7 @@ public class LatencyTestManager {
     }
 
     private void partialOfflineSync() {
-        WebApiManager.getInstance().partialOfflineSync().enqueue(new Callback<Contact>() {
+        WebApiManager.getInstance(mContext).partialOfflineSync().enqueue(new Callback<Contact>() {
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact = response.body();
@@ -215,8 +223,39 @@ public class LatencyTestManager {
     }
 
     private void syncUpload() {
-        // TODO
-        complete();
+        try {
+            InputStream inputStream = mContext.getAssets().open(Constants.SYNC_FILE_NAME);
+            String tempFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+            String tempFileName = "sync.tmp";
+            File fileToUpload = Utils.createFileFromInputStream(tempFilePath+tempFileName, inputStream);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("text/html"), fileToUpload);
+            MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
+            multipartBuilder.addFormDataPart("file", tempFileName, requestBody);
+            RequestBody payload = multipartBuilder.build();
+            WebApiManager.getInstance(mContext).syncUpload(payload).enqueue(new Callback<SyncUploadResponse>() {
+                @Override
+                public void onResponse(Call<SyncUploadResponse> call, Response<SyncUploadResponse> response) {
+                    SyncUploadResponse syncUploadResponse = response.body();
+
+                    mRecord.syncUpload = calculateWebcallTimeInMS(response);
+                    complete();
+                }
+
+                @Override
+                public void onFailure(Call<SyncUploadResponse> call, Throwable t) {
+                    Log.e(TAG, "Error with sync upload: " + t.getLocalizedMessage());
+                    mRecord.syncUpload = t.getLocalizedMessage();
+                    complete();
+                }
+            });
+
+        }
+        catch (IOException e) {
+            Log.e(TAG, "Error reading file to upload");
+            mRecord.syncUpload = e.getLocalizedMessage();
+            complete();
+        }
+
     }
 
     private void complete() {
